@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Моя интерактивная страница</title> <style>
-        body { /* Добавим немного стилей для центрирования и общего вида */
+    <title>Моя интерактивная страница</title>
+    <style>
+        body {
             font-family: sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            min-height: 90vh; /* Чтобы контент был примерно по центру экрана */
+            min-height: 90vh;
             margin: 0;
-            text-align: center; /* Для текста внутри элементов */
+            text-align: center;
         }
         h1 {
             color: blue;
@@ -19,8 +20,8 @@
             color: green;
             font-size: 20px;
         }
-        button { /* Стили для кнопки */
-            background-color: #4CAF50; /* Зеленый цвет фона */
+        button {
+            background-color: #4CAF50;
             border: none;
             color: white;
             padding: 15px 32px;
@@ -29,28 +30,49 @@
             display: inline-block;
             font-size: 16px;
             margin: 20px;
-            cursor: pointer; /* Указатель мыши в виде руки */
-            border-radius: 8px; /* Скругленные углы */
+            cursor: pointer;
+            border-radius: 8px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Мое крутое Мини Приложение!</h1> <p id="messageParagraph">Лидуська самая лучшая и любимая девочка!</p> <button id="changeTextButton">Нажми меня!</button>
+    <h1>Мое крутое Мини Приложение!</h1>
+
+    <p id="messageParagraph">Лида самая лучшая</p>
+
+    <button id="changeTextButton">Нажми меня!</button>
 
     <script>
-        // 1. Находим кнопку по её ID
+        // Сообщаем Telegram, что наше веб-приложение готово
+        Telegram.WebApp.ready();
+
+        // Находим нашу HTML-кнопку по её ID
         const myButton = document.getElementById('changeTextButton');
 
-        // 2. Находим абзац по его ID
+        // Находим наш HTML-абзац по его ID
         const message = document.getElementById('messageParagraph');
 
-        // 3. "Вешаем" на кнопку слушатель события "клик"
-        // Когда на кнопку нажмут, выполнится функция, указанная после "click"
+        // "Вешаем" на нашу HTML-кнопку слушатель события "клик"
         myButton.addEventListener('click', function() {
-            // 4. Внутри этой функции мы меняем текст абзаца
-            message.textContent = 'Ты самая лучшая миу!';
+            // ИЗМЕНЕННЫЙ ТЕКСТ ПОСЛЕ НАЖАТИЯ КНОПКИ
+            message.textContent = 'Миу! Люблю тебя!';
         });
+
+        // --- КОД ДЛЯ TELEGRAM MAINBUTTON ---
+
+        // Делаем главную кнопку Telegram видимой
+        Telegram.WebApp.MainButton.show();
+
+        // Устанавливаем текст для главной кнопки Telegram
+        Telegram.WebApp.MainButton.setText('Закрыть приложение');
+
+        // Добавляем обработчик нажатия для главной кнопки Telegram
+        Telegram.WebApp.MainButton.onClick(function() {
+            // При нажатии на главную кнопку Telegram – закрываем Mini App
+            Telegram.WebApp.close();
+        });
+
     </script>
 
 </body>
