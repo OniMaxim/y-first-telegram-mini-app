@@ -118,47 +118,4 @@
             });
         }
 
-        // --- НОВЫЙ КОД ДЛЯ ИГРЫ "ЛОПАЙ ШАРИКИ" ---
-        const bubbles = document.querySelectorAll('.bubble'); // Получаем все элементы с классом 'bubble'
-        const resetButton = document.getElementById('resetButton'); // Получаем кнопку сброса
-
-        // Функция, чтобы "лопнуть" шарик
-        function popBubble(bubbleElement) {
-            // Проверяем, не лопнул ли уже шарик
-            if (!bubbleElement.classList.contains('popped')) {
-                bubbleElement.classList.add('popped'); // Добавляем класс 'popped' для изменения стиля
-                bubbleElement.textContent = 'Чпок!';   // Добавляем текст "Чпок!" в шарик
-            }
-        }
-
-        // Функция, чтобы сбросить все шарики в начальное состояние
-        function resetAllBubbles() {
-            bubbles.forEach(function(bubble) { // Перебираем все шарики
-                bubble.classList.remove('popped'); // Удаляем класс 'popped'
-                bubble.textContent = '';          // Убираем текст "Чпок!"
-            });
-        }
-
-        // Добавляем обработчики клика на каждый шарик
-        bubbles.forEach(function(bubble) { // Перебираем все шарики
-            bubble.addEventListener('click', function() { // При клике на шарик
-                popBubble(bubble); // Вызываем функцию "лопнуть шарик"
-            });
-        });
-
-        // Добавляем обработчик клика на кнопку "Новая упаковка!"
-        resetButton.addEventListener('click', function() { // При клике на кнопку сброса
-            resetAllBubbles(); // Вызываем функцию сброса всех шариков
-        });
-
-        // --- КОД ДЛЯ TELEGRAM MAINBUTTON (для закрытия приложения) ---
-        Telegram.WebApp.MainButton.show();
-        Telegram.WebApp.MainButton.setText('Закрыть игру');
-        Telegram.WebApp.MainButton.onClick(function() {
-            Telegram.WebApp.close();
-        });
-
-    </script>
-
-</body>
-</html>
+        // --- НОВЫЙ КОД ДЛЯ
