@@ -8,100 +8,34 @@
             background-color: yellow; /* ВРЕМЕННО: Яркий фон для проверки видимости body */
             color: black;             /* ВРЕМЕННО: Черный текст для проверки */
             font-family: sans-serif;
-            /* Остальные стили для body пока убраны для теста */
-            padding-top: 20px; /* Небольшой отступ сверху оставим */
+            padding-top: 20px; 
             margin: 0;
         }
-
-        /* Остальные стили для игры и элементов */
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center; /* Добавим центрирование для заголовка */
-        }
-        .bubble-container {
-            display: grid;
-            grid-template-columns: repeat(5, 50px); /* 5 колонок шариков */
-            grid-gap: 15px; /* Расстояние между шариками */
-            padding: 20px;
-            background-color: #fff; /* Белый фон для "упаковки" */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-            margin-left: auto; /* Центрирование контейнера шариков */
-            margin-right: auto; /* Центрирование контейнера шариков */
-            width: fit-content; /* Чтобы контейнер занимал ширину по содержимому */
-        }
-        .bubble {
-            width: 50px;
-            height: 50px;
-            background-color: #87CEEB; /* Голубой цвет для целых шариков */
-            border-radius: 50%; /* Делает их круглыми */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px; /* Размер текста внутри шарика */
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s; /* Плавные переходы */
-            border: 2px solid #4682B4; /* Темно-голубая рамка */
-        }
-        .bubble:hover {
-            background-color: #6495ED; /* Чуть темнее при наведении */
-        }
-        .bubble.popped { /* Стиль для лопнувшего шарика */
-            background-color: #d3d3d3; /* Светло-серый */
-            color: #555;
-            cursor: default; /* Обычный курсор для лопнувшего */
-            border-color: #a9a9a9;
-        }
-        #resetButton, #myHtmlButton { /* Общие стили для кнопок */
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: block; /* Чтобы кнопки были блочными и центрировались */
-            font-size: 16px;
-            margin: 10px auto; /* Отступы и центрирование */
-            cursor: pointer;
-            border-radius: 8px;
-            width: fit-content; /* Ширина по содержимому */
-        }
-        #resetButton {
-            background-color: #FF6347; /* Томатный цвет для кнопки сброса */
-        }
-        #myHtmlButton {
-             background-color: #4CAF50; /* Зеленый для другой кнопки */
-        }
-        p#messageParagraph {
-            color: #228B22;
-            font-size: 18px;
-            min-height: 25px;
-            margin-top: 10px;
-            text-align: center; /* Центрирование текста абзаца */
-        }
+        h1 { color: #333; margin-bottom: 20px; text-align: center; }
+        .bubble-container { display: grid; grid-template-columns: repeat(5, 50px); grid-gap: 15px; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 20px; margin-left: auto; margin-right: auto; width: fit-content; }
+        .bubble { width: 50px; height: 50px; background-color: #87CEEB; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: white; cursor: pointer; transition: background-color 0.2s, transform 0.1s; border: 2px solid #4682B4; }
+        .bubble:hover { background-color: #6495ED; }
+        .bubble.popped { background-color: #d3d3d3; color: #555; cursor: default; border-color: #a9a9a9; }
+        #resetButton, #myHtmlButton { border: none; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: block; font-size: 16px; margin: 10px auto; cursor: pointer; border-radius: 8px; width: fit-content; }
+        #resetButton { background-color: #FF6347; }
+        #myHtmlButton { background-color: #4CAF50; }
+        p#messageParagraph { color: #228B22; font-size: 18px; min-height: 25px; margin-top: 10px; text-align: center; }
     </style>
 </head>
 <body>
     ЭТОТ ТЕКСТ ДОЛЖЕН БЫТЬ ВИДЕН СРАЗУ? <h1>Лопай Шарики: Антистресс! (Отладка)</h1>
-
     <div class="bubble-container" id="bubbleWrap">
         <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
         <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
         <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
     </div>
-
     <button id="resetButton">Новая упаковка!</button>
-
     <p id="messageParagraph">Лида самая лучшая</p>
     <button id="myHtmlButton">Нажми меня!</button>
 
     <script>
         alert('Скрипт начал работу');
 
-        // --- Проверка и использование объекта Telegram ---
         if (typeof Telegram !== 'undefined' && typeof Telegram.WebApp !== 'undefined') {
             alert('Объект Telegram.WebApp НАЙДЕН. Вызываю ready()');
             Telegram.WebApp.ready();
@@ -110,25 +44,18 @@
             alert('ПРЕДУПРЕЖДЕНИЕ: Объект Telegram.WebApp НЕ найден. Это нормально, если страница открыта НЕ ВНУТРИ Telegram.');
         }
 
-        // --- Логика для кнопки "Нажми меня" и абзаца (старый код) ---
         const myHtmlButton = document.getElementById('myHtmlButton');
         const message = document.getElementById('messageParagraph');
-
         if(myHtmlButton && message){
-            myHtmlButton.addEventListener('click', function() {
-                message.textContent = 'Миу! Люблю тебя!';
-            });
+            myHtmlButton.addEventListener('click', function() { message.textContent = 'Миу! Люблю тебя!'; });
             alert('Старый код для кнопки "Лида" выполнен');
         } else {
             alert('Кнопка "Лида" или абзац для нее не найдены, старый код пропущен');
         }
 
-        // --- НОВЫЙ КОД ДЛЯ ИГРЫ "ЛОПАЙ ШАРИКИ" ---
         alert('Начинается код игры "Лопай Шарики"');
-
         const bubbles = document.querySelectorAll('.bubble');
         alert('Шарики найдены? Количество: ' + (bubbles ? bubbles.length : 'null или undefined'));
-
         const resetButton = document.getElementById('resetButton');
         alert('Кнопка сброса найдена? ' + (resetButton ? 'Да' : 'Нет'));
 
@@ -138,7 +65,6 @@
                 bubbleElement.textContent = 'Чпок!';
             }
         }
-
         function resetAllBubbles() {
             if (bubbles) {
                 bubbles.forEach(function(bubble) {
@@ -156,3 +82,29 @@
                 });
             });
             alert('Обработчики кликов на шарики добавлены');
+        } else {
+            alert('Не удалось добавить обработчики на шарики (шарики не найдены или их 0)');
+        }
+
+        if (resetButton) {
+            resetButton.addEventListener('click', function() {
+                alert('Кнопка "Новая упаковка" нажата!');
+                resetAllBubbles();
+            });
+            alert('Обработчик клика на кнопку сброса добавлен');
+        } else {
+            alert('Не удалось добавить обработчик на кнопку сброса (кнопка не найдена)');
+        }
+
+        if (typeof Telegram !== 'undefined' && typeof Telegram.WebApp !== 'undefined') {
+            Telegram.WebApp.MainButton.show();
+            Telegram.WebApp.MainButton.setText('Закрыть игру');
+            Telegram.WebApp.MainButton.onClick(function() { Telegram.WebApp.close(); });
+            alert('Код для Telegram MainButton выполнен');
+        } else {
+            alert('Код для Telegram MainButton пропущен (Telegram.WebApp не найден)');
+        }
+        alert('Скрипт завершен (или должен был завершиться)');
+    </script>
+</body>
+</html>
