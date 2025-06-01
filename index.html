@@ -1,75 +1,160 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Моя интерактивная страница</title>
+    <title>Лопай Шарики: Антистресс</title>
     <style>
         body {
             font-family: sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 90vh;
+            padding-top: 20px;
+            min-height: 95vh;
             margin: 0;
-            text-align: center;
+            background-color: #f0f0f0; /* Светлый фон страницы */
         }
         h1 {
-            color: blue;
+            color: #333;
+            margin-bottom: 20px;
         }
-        p {
-            color: green;
-            font-size: 20px;
+        .bubble-container {
+            display: grid;
+            grid-template-columns: repeat(5, 50px); /* 5 колонок шариков */
+            grid-gap: 15px; /* Расстояние между шариками */
+            padding: 20px;
+            background-color: #fff; /* Белый фон для "упаковки" */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
         }
-        button {
-            background-color: #4CAF50;
+        .bubble {
+            width: 50px;
+            height: 50px;
+            background-color: #87CEEB; /* Голубой цвет для целых шариков */
+            border-radius: 50%; /* Делает их круглыми */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px; /* Размер текста внутри шарика */
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s; /* Плавные переходы */
+            border: 2px solid #4682B4; /* Темно-голубая рамка */
+        }
+        .bubble:hover {
+            background-color: #6495ED; /* Чуть темнее при наведении */
+        }
+        .bubble.popped { /* Стиль для лопнувшего шарика */
+            background-color: #d3d3d3; /* Светло-серый */
+            color: #555;
+            cursor: default; /* Обычный курсор для лопнувшего */
+            border-color: #a9a9a9;
+        }
+        #resetButton {
+            background-color: #FF6347; /* Томатный цвет для кнопки сброса */
             border: none;
             color: white;
-            padding: 15px 32px;
+            padding: 10px 20px;
             text-align: center;
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
-            margin: 20px;
+            margin-top: 10px; /* Отступ сверху */
+            margin-bottom: 10px; /* Отступ снизу */
             cursor: pointer;
             border-radius: 8px;
+        }
+        /* Стили для предыдущих элементов, если ты их оставишь */
+        p#messageParagraph {
+            color: #228B22;
+            font-size: 18px;
+            min-height: 25px;
+            margin-top: 10px;
+        }
+        #myHtmlButton {
+             background-color: #4CAF50;
+             border: none;
+             color: white;
+             padding: 10px 20px;
+             text-align: center;
+             text-decoration: none;
+             display: inline-block;
+             font-size: 16px;
+             margin-left: 10px;
+             cursor: pointer;
+             border-radius: 8px;
         }
     </style>
 </head>
 <body>
 
-    <h1>Мое крутое Мини Приложение!</h1>
+    <h1>Лопай Шарики: Антистресс!</h1>
+
+    <div class="bubble-container" id="bubbleWrap">
+        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
+    </div>
+
+    <button id="resetButton">Новая упаковка!</button>
 
     <p id="messageParagraph">Лида самая лучшая</p>
+    <button id="myHtmlButton">Нажми меня!</button>
 
-    <button id="changeTextButton">Нажми меня!</button>
 
     <script>
         // Сообщаем Telegram, что наше веб-приложение готово
         Telegram.WebApp.ready();
 
-        // Находим нашу HTML-кнопку по её ID
-        const myButton = document.getElementById('changeTextButton');
-
-        // Находим наш HTML-абзац по его ID
+        // --- Логика для кнопки "Нажми меня" и абзаца (старый код) ---
+        const myHtmlButton = document.getElementById('myHtmlButton');
         const message = document.getElementById('messageParagraph');
 
-        // "Вешаем" на нашу HTML-кнопку слушатель события "клик"
-        myButton.addEventListener('click', function() {
-            // ИЗМЕНЕННЫЙ ТЕКСТ ПОСЛЕ НАЖАТИЯ КНОПКИ
-            message.textContent = 'Миу! Люблю тебя!';
+        // Проверяем, существуют ли эти элементы, прежде чем вешать слушатель
+        if(myHtmlButton && message){
+            myHtmlButton.addEventListener('click', function() {
+                message.textContent = 'Миу! Люблю тебя!';
+            });
+        }
+
+        // --- НОВЫЙ КОД ДЛЯ ИГРЫ "ЛОПАЙ ШАРИКИ" ---
+        const bubbles = document.querySelectorAll('.bubble'); // Получаем все элементы с классом 'bubble'
+        const resetButton = document.getElementById('resetButton'); // Получаем кнопку сброса
+
+        // Функция, чтобы "лопнуть" шарик
+        function popBubble(bubbleElement) {
+            // Проверяем, не лопнул ли уже шарик
+            if (!bubbleElement.classList.contains('popped')) {
+                bubbleElement.classList.add('popped'); // Добавляем класс 'popped' для изменения стиля
+                bubbleElement.textContent = 'Чпок!';   // Добавляем текст "Чпок!" в шарик
+            }
+        }
+
+        // Функция, чтобы сбросить все шарики в начальное состояние
+        function resetAllBubbles() {
+            bubbles.forEach(function(bubble) { // Перебираем все шарики
+                bubble.classList.remove('popped'); // Удаляем класс 'popped'
+                bubble.textContent = '';          // Убираем текст "Чпок!"
+            });
+        }
+
+        // Добавляем обработчики клика на каждый шарик
+        bubbles.forEach(function(bubble) { // Перебираем все шарики
+            bubble.addEventListener('click', function() { // При клике на шарик
+                popBubble(bubble); // Вызываем функцию "лопнуть шарик"
+            });
         });
 
-        // --- КОД ДЛЯ TELEGRAM MAINBUTTON ---
+        // Добавляем обработчик клика на кнопку "Новая упаковка!"
+        resetButton.addEventListener('click', function() { // При клике на кнопку сброса
+            resetAllBubbles(); // Вызываем функцию сброса всех шариков
+        });
 
-        // Делаем главную кнопку Telegram видимой
+        // --- КОД ДЛЯ TELEGRAM MAINBUTTON (для закрытия приложения) ---
         Telegram.WebApp.MainButton.show();
-
-        // Устанавливаем текст для главной кнопки Telegram
-        Telegram.WebApp.MainButton.setText('Закрыть приложение');
-
-        // Добавляем обработчик нажатия для главной кнопки Telegram
+        Telegram.WebApp.MainButton.setText('Закрыть игру');
         Telegram.WebApp.MainButton.onClick(function() {
-            // При нажатии на главную кнопку Telegram – закрываем Mini App
             Telegram.WebApp.close();
         });
 
