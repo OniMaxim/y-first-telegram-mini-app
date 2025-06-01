@@ -1,121 +1,103 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Лопай Шарики: Антистресс</title>
+    <title>Лопай Шарики: Антистресс (с отладкой)</title>
     <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-top: 20px;
-            min-height: 95vh;
-            margin: 0;
-            background-color: #f0f0f0; /* Светлый фон страницы */
-        }
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .bubble-container {
-            display: grid;
-            grid-template-columns: repeat(5, 50px); /* 5 колонок шариков */
-            grid-gap: 15px; /* Расстояние между шариками */
-            padding: 20px;
-            background-color: #fff; /* Белый фон для "упаковки" */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin-bottom: 20px;
-        }
-        .bubble {
-            width: 50px;
-            height: 50px;
-            background-color: #87CEEB; /* Голубой цвет для целых шариков */
-            border-radius: 50%; /* Делает их круглыми */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px; /* Размер текста внутри шарика */
-            font-weight: bold;
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.2s, transform 0.1s; /* Плавные переходы */
-            border: 2px solid #4682B4; /* Темно-голубая рамка */
-        }
-        .bubble:hover {
-            background-color: #6495ED; /* Чуть темнее при наведении */
-        }
-        .bubble.popped { /* Стиль для лопнувшего шарика */
-            background-color: #d3d3d3; /* Светло-серый */
-            color: #555;
-            cursor: default; /* Обычный курсор для лопнувшего */
-            border-color: #a9a9a9;
-        }
-        #resetButton {
-            background-color: #FF6347; /* Томатный цвет для кнопки сброса */
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin-top: 10px; /* Отступ сверху */
-            margin-bottom: 10px; /* Отступ снизу */
-            cursor: pointer;
-            border-radius: 8px;
-        }
-        /* Стили для предыдущих элементов, если ты их оставишь */
-        p#messageParagraph {
-            color: #228B22;
-            font-size: 18px;
-            min-height: 25px;
-            margin-top: 10px;
-        }
-        #myHtmlButton {
-             background-color: #4CAF50;
-             border: none;
-             color: white;
-             padding: 10px 20px;
-             text-align: center;
-             text-decoration: none;
-             display: inline-block;
-             font-size: 16px;
-             margin-left: 10px;
-             cursor: pointer;
-             border-radius: 8px;
-        }
+        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding-top: 20px; min-height: 95vh; margin: 0; background-color: #f0f0f0; }
+        h1 { color: #333; margin-bottom: 20px; }
+        .bubble-container { display: grid; grid-template-columns: repeat(5, 50px); grid-gap: 15px; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .bubble { width: 50px; height: 50px; background-color: #87CEEB; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: white; cursor: pointer; transition: background-color 0.2s, transform 0.1s; border: 2px solid #4682B4; }
+        .bubble:hover { background-color: #6495ED; }
+        .bubble.popped { background-color: #d3d3d3; color: #555; cursor: default; border-color: #a9a9a9; }
+        #resetButton { background-color: #FF6347; border: none; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-top: 10px; margin-bottom: 10px; cursor: pointer; border-radius: 8px; }
+        p#messageParagraph { color: #228B22; font-size: 18px; min-height: 25px; margin-top: 10px; }
+        #myHtmlButton { background-color: #4CAF50; border: none; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-left: 10px; cursor: pointer; border-radius: 8px; }
     </style>
 </head>
 <body>
-
-    <h1>Лопай Шарики: Антистресс!</h1>
-
+    <h1>Лопай Шарики: Антистресс! (Отладка)</h1>
     <div class="bubble-container" id="bubbleWrap">
         <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
         <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
         <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
     </div>
-
     <button id="resetButton">Новая упаковка!</button>
-
     <p id="messageParagraph">Лида самая лучшая</p>
     <button id="myHtmlButton">Нажми меня!</button>
 
-
     <script>
+        alert('Скрипт начал работу'); // <-- САМЫЙ ПЕРВЫЙ ALERT
+
         // Сообщаем Telegram, что наше веб-приложение готово
         Telegram.WebApp.ready();
+        alert('Telegram.WebApp.ready() выполнен'); // <-- ALERT ПОСЛЕ TELEGRAM READY
 
         // --- Логика для кнопки "Нажми меня" и абзаца (старый код) ---
         const myHtmlButton = document.getElementById('myHtmlButton');
         const message = document.getElementById('messageParagraph');
 
-        // Проверяем, существуют ли эти элементы, прежде чем вешать слушатель
         if(myHtmlButton && message){
             myHtmlButton.addEventListener('click', function() {
                 message.textContent = 'Миу! Люблю тебя!';
             });
+            alert('Старый код для кнопки "Лида" выполнен');
+        } else {
+            alert('Кнопка "Лида" или абзац для нее не найдены, старый код пропущен');
         }
 
-        // --- НОВЫЙ КОД ДЛЯ
+        // --- НОВЫЙ КОД ДЛЯ ИГРЫ "ЛОПАЙ ШАРИКИ" ---
+        alert('Начинается код игры "Лопай Шарики"');
+
+        const bubbles = document.querySelectorAll('.bubble');
+        alert('Шарики найдены? Количество: ' + (bubbles ? bubbles.length : 'null или undefined'));
+
+        const resetButton = document.getElementById('resetButton');
+        alert('Кнопка сброса найдена? ' + (resetButton ? 'Да' : 'Нет'));
+
+        function popBubble(bubbleElement) {
+            if (!bubbleElement.classList.contains('popped')) {
+                bubbleElement.classList.add('popped');
+                bubbleElement.textContent = 'Чпок!';
+            }
+        }
+
+        function resetAllBubbles() {
+            if (bubbles) { // Добавим проверку, что bubbles существует
+                bubbles.forEach(function(bubble) {
+                    bubble.classList.remove('popped');
+                    bubble.textContent = '';
+                });
+            }
+        }
+
+        if (bubbles && bubbles.length > 0) {
+            bubbles.forEach(function(bubble, index) {
+                bubble.addEventListener('click', function() {
+                    alert('Шарик #' + (index + 1) + ' нажат!');
+                    popBubble(bubble);
+                });
+            });
+            alert('Обработчики кликов на шарики добавлены');
+        } else {
+            alert('Не удалось добавить обработчики на шарики (шарики не найдены или их 0)');
+        }
+
+        if (resetButton) {
+            resetButton.addEventListener('click', function() {
+                alert('Кнопка "Новая упаковка" нажата!');
+                resetAllBubbles();
+            });
+            alert('Обработчик клика на кнопку сброса добавлен');
+        } else {
+            alert('Не удалось добавить обработчик на кнопку сброса (кнопка не найдена)');
+        }
+
+        Telegram.WebApp.MainButton.show();
+        Telegram.WebApp.MainButton.setText('Закрыть игру');
+        Telegram.WebApp.MainButton.onClick(function() {
+            Telegram.WebApp.close();
+        });
+        alert('Код для Telegram MainButton выполнен, скрипт завершен');
+    </script>
+</body>
+</html>
