@@ -1,44 +1,136 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Лопай Шарики: Антистресс (Полная Отладка)</title>
+    <title>Лопай Шарики: Антистресс</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         body {
-            background-color: yellow; /* ВРЕМЕННО: Яркий фон для проверки видимости body */
-            color: black;             /* ВРЕМЕННО: Черный текст для проверки */
-            font-family: sans-serif;
-            padding-top: 20px; 
+            font-family: 'Arial', sans-serif; /* Сделаем шрифт чуть более стандартным */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Центрирование контента по горизонтали */
+            justify-content: flex-start; /* Начинаем контент сверху, если он не занимает всю высоту */
+            min-height: 100vh; /* Занимаем всю высоту экрана */
             margin: 0;
+            padding: 20px 10px; /* Отступы сверху/снизу и по бокам */
+            background-color: #e9eff3; /* Новый, более мягкий светло-голубой фон */
+            box-sizing: border-box; /* Чтобы padding не увеличивал общую ширину/высоту */
         }
-        h1 { color: #333; margin-bottom: 20px; text-align: center; }
-        .bubble-container { display: grid; grid-template-columns: repeat(5, 50px); grid-gap: 15px; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 20px; margin-left: auto; margin-right: auto; width: fit-content; }
-        .bubble { width: 50px; height: 50px; background-color: #87CEEB; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: white; cursor: pointer; transition: background-color 0.2s, transform 0.1s; border: 2px solid #4682B4; }
-        .bubble:hover { background-color: #6495ED; }
-        .bubble.popped { background-color: #d3d3d3; color: #555; cursor: default; border-color: #a9a9a9; }
-        #resetButton, #myHtmlButton { border: none; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: block; font-size: 16px; margin: 10px auto; cursor: pointer; border-radius: 8px; width: fit-content; }
-        #resetButton { background-color: #FF6347; }
-        #myHtmlButton { background-color: #4CAF50; }
-        p#messageParagraph { color: #228B22; font-size: 18px; min-height: 25px; margin-top: 10px; text-align: center; }
+
+        h1 {
+            color: #2c3e50; /* Темно-синий цвет для заголовка */
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .bubble-container {
+            display: grid;
+            grid-template-columns: repeat(5, 50px);
+            grid-gap: 15px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 12px; /* Чуть больше скругление */
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.12); /* Более выраженная тень */
+            margin-bottom: 25px;
+        }
+
+        .bubble {
+            width: 50px;
+            height: 50px;
+            background-color: #3498db; /* Более насыщенный синий для шариков */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.15s ease-out, transform 0.1s ease-out;
+            border: 2px solid #2980b9; /* Соответствующая рамка */
+        }
+
+        .bubble:hover {
+            background-color: #2980b9; /* Темнее при наведении */
+            transform: scale(1.05); /* Немного увеличиваем при наведении */
+        }
+
+        .bubble.popped {
+            background-color: #bdc3c7; /* Нейтральный серый для лопнувших */
+            color: #7f8c8d;
+            cursor: default;
+            border-color: #95a5a6;
+            transform: scale(0.95); /* Немного уменьшаем лопнувший */
+        }
+
+        #resetButton, #myHtmlButton {
+            border: none;
+            color: white;
+            padding: 12px 24px; /* Немного увеличим паддинг */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block; /* Изменим на inline-block для размещения в строку, если нужно */
+            font-size: 16px;
+            margin: 8px; /* Небольшие отступы вокруг кнопок */
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.2s ease;
+            min-width: 150px; /* Минимальная ширина для кнопок */
+        }
+
+        #resetButton {
+            background-color: #e74c3c; /* Более насыщенный красный */
+        }
+        #resetButton:hover {
+            background-color: #c0392b;
+        }
+
+        #myHtmlButton {
+             background-color: #2ecc71; /* Более насыщенный зеленый */
+        }
+        #myHtmlButton:hover {
+             background-color: #27ae60;
+        }
+        
+        /* Контейнер для кнопок, чтобы они были под игрой */
+        .buttons-footer {
+            display: flex;
+            flex-direction: column; /* Кнопки одна под другой */
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        p#messageParagraph {
+            color: #16a085; /* Бирюзовый */
+            font-size: 18px;
+            font-weight: bold;
+            min-height: 25px;
+            margin-top: 15px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    ЭТОТ ТЕКСТ ДОЛЖЕН БЫТЬ ВИДЕН СРАЗУ? <h1>Лопай Шарики: Антистресс! (Отладка)</h1>
+    <h1>Лопай Шарики: Антистресс!</h1>
+
     <div class="bubble-container" id="bubbleWrap">
         <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
         <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
         <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
     </div>
-    <button id="resetButton">Новая упаковка!</button>
-    <p id="messageParagraph">Лида самая лучшая</p>
-    <button id="myHtmlButton">Нажми меня!</button>
 
-   <script>
+    <div class="buttons-footer">
+        <button id="resetButton">Новая упаковка!</button>
+        <button id="myHtmlButton">Нажми меня!</button>
+    </div>
+    
+    <p id="messageParagraph">Лида самая лучшая</p>
+
+    <script>
         // Сообщаем Telegram, что наше веб-приложение готово
         if (typeof Telegram !== 'undefined' && typeof Telegram.WebApp !== 'undefined') {
             Telegram.WebApp.ready();
         } else {
-            // Это сообщение можно раскомментировать (убрать // в начале строки) для отладки в обычном браузере, если нужно
             // console.log('ПРЕДУПРЕЖДЕНИЕ: Объект Telegram.WebApp НЕ найден. Это нормально, если страница открыта НЕ ВНУТРИ Telegram.');
         }
 
@@ -73,7 +165,7 @@
         }
 
         if (bubbles && bubbles.length > 0) {
-            bubbles.forEach(function(bubble) { // Убрал alert отсюда
+            bubbles.forEach(function(bubble) {
                 bubble.addEventListener('click', function() {
                     popBubble(bubble);
                 });
@@ -81,7 +173,7 @@
         }
 
         if (resetButton) {
-            resetButton.addEventListener('click', function() { // Убрал alert отсюда
+            resetButton.addEventListener('click', function() {
                 resetAllBubbles();
             });
         }
