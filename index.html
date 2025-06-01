@@ -1,41 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Лопай Шарики: Антистресс (с отладкой)</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding-top: 20px; min-height: 95vh; margin: 0; background-color: #f0f0f0; }
-        h1 { color: #333; margin-bottom: 20px; }
-        .bubble-container { display: grid; grid-template-columns: repeat(5, 50px); grid-gap: 15px; padding: 20px; background-color: #fff; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-bottom: 20px; }
-        .bubble { width: 50px; height: 50px; background-color: #87CEEB; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: bold; color: white; cursor: pointer; transition: background-color 0.2s, transform 0.1s; border: 2px solid #4682B4; }
-        .bubble:hover { background-color: #6495ED; }
-        .bubble.popped { background-color: #d3d3d3; color: #555; cursor: default; border-color: #a9a9a9; }
-        #resetButton { background-color: #FF6347; border: none; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-top: 10px; margin-bottom: 10px; cursor: pointer; border-radius: 8px; }
-        p#messageParagraph { color: #228B22; font-size: 18px; min-height: 25px; margin-top: 10px; }
-        #myHtmlButton { background-color: #4CAF50; border: none; color: white; padding: 10px 20px; text-align: center; text-decoration: none; display: inline-block; font-size: 16px; margin-left: 10px; cursor: pointer; border-radius: 8px; }
-    </style>
-</head>
-<body>
-    <h1>Лопай Шарики: Антистресс! (Отладка)</h1>
-    <div class="bubble-container" id="bubbleWrap">
-        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
-        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
-        <div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div><div class="bubble"></div>
-    </div>
-    <button id="resetButton">Новая упаковка!</button>
-    <p id="messageParagraph">Лида самая лучшая</p>
-    <button id="myHtmlButton">Нажми меня!</button>
-
-    <script>
-        alert('Скрипт начал работу');
-
-        // --- Проверка и использование объекта Telegram ---
+<script>
+        // Сообщаем Telegram, что наше веб-приложение готово
         if (typeof Telegram !== 'undefined' && typeof Telegram.WebApp !== 'undefined') {
-            alert('Объект Telegram.WebApp НАЙДЕН. Вызываю ready()');
-            Telegram.WebApp.ready(); // Сообщаем Telegram, что наше веб-приложение готово
-            alert('Telegram.WebApp.ready() выполнен');
+            Telegram.WebApp.ready();
         } else {
-            alert('ПРЕДУПРЕЖДЕНИЕ: Объект Telegram.WebApp НЕ найден. Это нормально, если страница открыта НЕ ВНУТРИ Telegram.');
+            // Это сообщение можно оставить, если хочешь видеть его при открытии в обычном браузере
+            // console.log('ПРЕДУПРЕЖДЕНИЕ: Объект Telegram.WebApp НЕ найден. Это нормально, если страница открыта НЕ ВНУТРИ Telegram.');
         }
 
         // --- Логика для кнопки "Нажми меня" и абзаца (старый код) ---
@@ -46,19 +15,11 @@
             myHtmlButton.addEventListener('click', function() {
                 message.textContent = 'Миу! Люблю тебя!';
             });
-            alert('Старый код для кнопки "Лида" выполнен');
-        } else {
-            alert('Кнопка "Лида" или абзац для нее не найдены, старый код пропущен');
         }
 
-        // --- НОВЫЙ КОД ДЛЯ ИГРЫ "ЛОПАЙ ШАРИКИ" ---
-        alert('Начинается код игры "Лопай Шарики"');
-
+        // --- КОД ДЛЯ ИГРЫ "ЛОПАЙ ШАРИКИ" ---
         const bubbles = document.querySelectorAll('.bubble');
-        alert('Шарики найдены? Количество: ' + (bubbles ? bubbles.length : 'null или undefined'));
-
         const resetButton = document.getElementById('resetButton');
-        alert('Кнопка сброса найдена? ' + (resetButton ? 'Да' : 'Нет'));
 
         function popBubble(bubbleElement) {
             if (!bubbleElement.classList.contains('popped')) {
@@ -77,40 +38,27 @@
         }
 
         if (bubbles && bubbles.length > 0) {
-            bubbles.forEach(function(bubble, index) {
+            bubbles.forEach(function(bubble) { // Убрал index, он был для отладочного alert
                 bubble.addEventListener('click', function() {
-                    alert('Шарик #' + (index + 1) + ' нажат!');
+                    // alert('Шарик #' + (index + 1) + ' нажат!'); // <-- УБИРАЕМ ЭТОТ ALERT
                     popBubble(bubble);
                 });
             });
-            alert('Обработчики кликов на шарики добавлены');
-        } else {
-            alert('Не удалось добавить обработчики на шарики (шарики не найдены или их 0)');
         }
 
         if (resetButton) {
             resetButton.addEventListener('click', function() {
-                alert('Кнопка "Новая упаковка" нажата!');
+                // alert('Кнопка "Новая упаковка" нажата!'); // <-- УБИРАЕМ ЭТОТ ALERT
                 resetAllBubbles();
             });
-            alert('Обработчик клика на кнопку сброса добавлен');
-        } else {
-            alert('Не удалось добавить обработчик на кнопку сброса (кнопка не найдена)');
         }
 
         // --- КОД ДЛЯ TELEGRAM MAINBUTTON (для закрытия приложения) ---
-        // Добавим проверку и для этого блока
         if (typeof Telegram !== 'undefined' && typeof Telegram.WebApp !== 'undefined') {
             Telegram.WebApp.MainButton.show();
             Telegram.WebApp.MainButton.setText('Закрыть игру');
             Telegram.WebApp.MainButton.onClick(function() {
                 Telegram.WebApp.close();
             });
-            alert('Код для Telegram MainButton выполнен');
-        } else {
-            alert('Код для Telegram MainButton пропущен (Telegram.WebApp не найден)');
         }
-        alert('Скрипт завершен (или должен был завершиться)');
     </script>
-</body>
-</html>
